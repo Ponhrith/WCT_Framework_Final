@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    color: #808080;
+    box-sizing: border-box;
+    font-family:   'Poppins',  sans-serif;
+    background-color: #283747;
+}
+
+.logoName{
+   position: absolute;
+   left: 75px;
+   color: rgb(128, 128, 128);
+   font-size: 23px;
+}
+
+.iconNav {
+    display: inline-block;
+    color: #666;
+    font-size: 18px;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    border: 1px solid #283747;
+    border-radius: 100px;
+    padding: 5px;
+    size: 115px;
+    border: 50px;
+}
+
+.iconNav:hover {
+    color: #FF0;
+    transform: scale(2.1);
+}
+
+#here {
+    color: #FF0;
+}
+
+.ask {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 35px;
+    margin-top: 0%;
+
+}
+
+header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.logoNav {
+  max-width: 100px;
+}
+
+
+@media (max-width: 768px) {
+    .logoNav {
+        max-width: 70px; 
+    }
+
+    .logoName {
+        font-size: 17px;
+        margin-left: -22px;
+        margin-top: 3px;
+    }
+
+    .iconNav {
+        font-size: 15px;
+        margin-left: 7px;
+    }  
+}
+
+@media (max-width: 600px) {
+    .logoNav {
+        max-width: 50px; 
+    }
+
+    .logoName {
+        font-size: 12px;
+        margin-left: -37px;
+        margin-top: 3px;
+    }
+
+    .iconNav {
+        font-size: 13px;
+        margin-left: 2px;
+    }  
+}

@@ -1,0 +1,170 @@
+
+  .top {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 35px;
+    margin-top: 1em;
+  }
+  
+  .login {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+  }
+  
+  #check {
+    display: none;
+  }
+  
+  .container .form {
+    padding: 2rem;
+    margin-top: 3em;
+  }
+  
+  .form header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form input {
+    display: flex;
+    justify-content: center;
+    height: 75px;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 0 15px;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    outline: none;
+    color: #666;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+  }
+  
+  .form input:hover {
+    transform: scale(1.1);
+  }
+  
+  .form input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    color: yellow;
+  }
+  
+  .form a {
+    font-size: 16px;
+    color: yellow;
+    text-decoration: none;
+  }
+  
+  .form a:hover {
+    text-decoration: underline;
+  }
+  
+  .form input.button {
+    color: #fff;
+    background: #283747;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 1.7rem;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+  
+  .form input.button:hover {
+    background: yellow;
+    color:#283747;
+  }
+  
+  .signup1 {
+    margin-left: 20px;
+    font-size: 17px;
+    color: #666;
+   }
+
+   .signup1 label {
+    color: yellow;
+    cursor: pointer;
+  }
+  
+  .container {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 450px;
+    width: 100%;
+    background: #283747; 
+    border-radius: 7px;
+    text-align: center;
+  }
+  
+  .connector {
+    margin-top: -45px;
+    background-color: transparent;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    color: white;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    font-size: 15px;
+  }
+
+  .connector:hover {
+    color: yellow;
+  }
+   
+  @media (max-width: 768px) {
+   .top { 
+    font-size: 27px;
+    margin-top: -1em;
+   }
+
+   .form input {
+    height: 60px;
+    max-width: 250px;
+    border-radius: 40px;
+    font-size: 14px;
+   }
+
+   button {
+    font-size: 14px;
+    height: 10px;
+   }
+   .signup1 {
+    margin: 0;
+   }
+}
+
+@media (max-width: 600px) {
+  .top { 
+   font-size: 24px;
+   margin-top: -1em;
+  }
+
+  .form input {
+   height: 50px;
+   max-width: 200px;
+   border-radius: 40px;
+   font-size: 12px;
+  }
+  
+  .signup1 {
+   font-size: 12px;
+  }
+
+  button {
+   font-size: 12px;
+   height: 10px;
+  }
+  .signup1 {
+    margin: 0;
+   }
+}

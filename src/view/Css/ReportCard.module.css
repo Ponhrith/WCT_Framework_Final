@@ -1,0 +1,173 @@
+
+
+.reportItem {
+    margin-top:5%;
+    margin-left: 17%;
+    margin-bottom: 10px;
+    border: 10px solid #283747;
+    box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25);;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    width: 900px;
+    height: fit-content;
+    flex-shrink: 0;
+    margin-bottom: 50px;
+}
+
+
+
+.reportImage {
+    width: 200px;
+    height: 200px; 
+    border-radius: 20px;
+    fill: #808080;
+    object-fit: cover;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.reportImage:hover { 
+    transform: scale(1.1);
+  }
+
+.reportContent {
+    flex: 1;
+    margin-left: 20px; /* Adjust as needed */
+}
+
+.reportBuilding,
+.reportFloor,
+.reportRoom,
+.reportDetail,
+.reportDate,
+.reportAuthor,
+.reportAnonymous {
+    color: #808080;
+    font-family: Tiro Devanagari Sanskrit;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 5px; /* Adjust as needed */
+    padding: 10px;
+}
+
+.reportBuilding,
+.reportFloor,
+.reportRoom {
+    display: inline-block;
+    margin-right: 20px; /* Adjust as needed */
+}
+
+.reportDetail,
+.reportDate {
+    font-size: 19px; /* Adjust as needed */
+}
+
+.reportDate {
+    margin-left: 390px;
+}
+
+.reportAuthor,
+.report-anonymous {
+    color: #FFF;
+    font-style: italic;
+    
+}
+
+.report-list {
+margin-left: 86px;
+margin-top: 37px;
+color: #666;
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+
+.reportStatus {
+   text-align: center;
+    color: yellow;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+    }
+
+    .reportDate, .reportStatus{
+        margin: 0;
+    }
+
+    .reportItem {
+        margin-left: 0;
+        display: flex;
+        width: auto;
+        height: fit-content;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-direction: column;
+        
+    }
+
+    .reportImage {
+       width: 250px;
+       height: 250px;
+    }
+
+    .buttton-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+    }
+
+    .reportStatus {
+        text-align: center;
+        margin-top: 2em;
+    }
+
+    .admin, .report-list{
+        margin-left: 1em;
+    }
+
+   .reportItem {
+        box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25);
+   }
+
+   .reportBuilding,
+.reportFloor,
+.reportRoom,
+.reportDetail,
+.reportDate,
+.reportAuthor,
+.reportAnonymous {
+    font-size: 15px;
+}
+
+reportDetail,
+.reportDate {
+    font-size: 14px; /* Adjust as needed */
+}
+          
+}
+
+@media (max-width: 600px) {
+
+    .reportBuilding,
+.reportFloor,
+.reportRoom,
+.reportDetail,
+.reportDate,
+.reportAuthor,
+.reportAnonymous {
+    font-size: 13px;
+}
+
+reportDetail,
+.reportDate {
+    font-size: 12px; /* Adjust as needed */
+}
+
+}

@@ -1,0 +1,72 @@
+.admin {
+    width: 179px;
+    height: 53px;
+    color: yellow;
+    font-family: Tiro Devanagari Sanskrit;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 51px;
+    margin-top: 37px;
+    
+}
+
+.reportList {
+    font-size: 18px;
+    margin-top: 40px;
+    margin-left: 51px;
+}
+
+.navigator {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-around; 
+
+}
+
+.tracking, .approval {
+    text-decoration: none;
+    display: flex;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+   
+}
+
+.tracking:hover, .approval:hover  {
+    transform: scale(1.2);
+    color: yellow;
+}
+
+
+
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+    }
+
+    .admin{
+        margin-left: 1em;
+        font-size: 44px;
+    }
+
+    .reportList{
+        margin-left: 1em;
+        font-size: 15px;
+    }
+
+
+          
+}
+
+@media (max-width: 600px) {
+    .admin{
+        margin-left: 1em;
+        font-size: 40px;
+    }
+
+    .reportList{
+        margin-left: 1em;
+        font-size: 13px;
+    }
+
+}
