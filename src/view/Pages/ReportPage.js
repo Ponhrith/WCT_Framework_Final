@@ -5,7 +5,6 @@ import { auth, database, createUserWithEmailAndPassword, ref, set } from '../com
 import styles from'../Css/Login.module.css';
 
 const RegisterPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user_name, setUser_name] = useState('');
   const [user_ID, setUser_ID] = useState('');
   const [user_department, setUser_department] = useState('');
@@ -70,10 +69,8 @@ const RegisterPage = () => {
   return (
     <>
       <Nav />
-      <div className={styles.container}>
-        <header className={styles.top}>
-          Regi<span style={{ color: 'yellow' }}>ster</span>
-        </header>
+      <div className={styles.container}> 
+      <header className={styles.top}>Regi<span style={{ color: 'yellow' }}>ster</span></header>
         <div className={`${styles.registration} ${styles.form}`}>
           <form action="#">
             <input
@@ -90,7 +87,7 @@ const RegisterPage = () => {
               value={user_ID}
               onChange={(e) => setUser_ID(e.target.value)}
             />
-            <input
+              <input
               type="text"
               id="user_department"
               placeholder="Enter your department"
@@ -136,9 +133,7 @@ const RegisterPage = () => {
             <span className={styles.signup1}>
               Already have an account?
               <Link to="/login">
-                <button htmlFor="check" className={styles.connector}>
-                  Login
-                </button>
+                <button htmlFor="check" className={styles.connector}>Login</button>
               </Link>
             </span>
           </div>
