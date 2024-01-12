@@ -124,23 +124,29 @@ const ReportPage = () => {
     const date = document.getElementById('date').value;
     const imageInput = document.getElementById('image');
 
-    if (!date) {
-      alert('Please choose date.');
-      return;
-    }
+    // if (!date) {
+    //   alert('Please choose date.');
+    //   return;
+    // }
 
-    if (!building) {
-      alert('Please select building.');
+    // if (!building) {
+    //   alert('Please select building.');
+    //   return;
+    // }
+    // if (!floor) {
+    //   alert('Please select floor.');
+    //   return;
+    // }
+    // if (!room) {
+    //   alert('Please select room.');
+    //   return;
+    // }
+
+    if (building === '' || status === '' || floor === '' || room === '' || detail === '' || date === '') {
+      alert('Please fill in all fields.');
       return;
-    }
-    if (!floor) {
-      alert('Please select floor.');
-      return;
-    }
-    if (!room) {
-      alert('Please select room.');
-      return;
-    }
+    }  
+
     if (!imageInput.files[0]) {
       alert('Please select an image.');
       return;
@@ -218,7 +224,15 @@ const ReportPage = () => {
         <form className="card">
           <select id="room" required value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)}>
             <option value="">Room</option>
-            {/* Add room options based on your logic */}
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
           </select>
         </form>
 
