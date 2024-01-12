@@ -27,7 +27,7 @@ const HomePage = () => {
             value={selectedFilter}
             onChange={handleFilterChange}
           >
-            <option value="filter">filter</option>
+            <option value="filter">Filter</option>
             <option value="All">All</option>
             <option value="Checking">Checking</option>
             <option value="Fixing">Fixing</option>
