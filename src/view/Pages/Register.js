@@ -5,40 +5,20 @@ import { auth, database, createUserWithEmailAndPassword, ref, set } from '../com
 import styles from'../Css/Login.module.css';
 
 const RegisterPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user_name, setUser_name] = useState('');
+  const [user_ID, setUser_ID] = useState('');
+  const [user_department, setUser_department] = useState('');
+  const [user_year, setUser_year] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm_password, setConfirmPassword] = useState('');
 
-  // useEffect(() => {
-  //   // Add a listener to detect authentication state changes
-  //   // const unsubscribe = auth.onAuthStateChanged(user => {
-  //   //   if (user) {
-  //   //     // User is logged in
-  //   //     console.log('User is logged in:', user.email);
-  //   //     setIsLoggedIn(true);
-  //   //   } else {
-  //   //     // User is logged out
-  //   //     console.log('User is logged out');
-  //   //     setIsLoggedIn(false);
-  //   //   }
-  //   // });
-
-  //   return () => {
-  //     // Unsubscribe the listener when the component unmounts
-  //     unsubscribe();
-  //   };
-  // }, [auth]);
-
-
   const register = () => {
-    // Validate input fields
+ 
     if (!validate_email(email) || !validate_password(password)) {
       alert('Email or Password is Outta Line!!');
       return;
     }
-
     if (password !== confirm_password) {
       alert("password not match!!");
       return;
@@ -56,6 +36,9 @@ const RegisterPage = () => {
         const user_data = {
           user_name: user_name,
           email: email,
+          user_ID: user_ID,
+          user_department: user_department,
+          user_year: user_year,
           last_login: Date.now()
         };
 
@@ -75,20 +58,17 @@ const RegisterPage = () => {
   };
 
   const validate_email = (email) => {
-    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    const expression = /^[^@]+@rupp\.edu\.kh$/;
     return expression.test(email);
   };
 
   const validate_password = (password) => {
-    // Firebase only accepts lengths greater than 6
     return password.length >= 6;
   };
 
   return (
     <>
       <Nav />
-     
-
       <div className={styles.container}> 
       <header className={styles.top}>Regi<span style={{ color: 'yellow' }}>ster</span></header>
         <div className={`${styles.registration} ${styles.form}`}>
@@ -96,14 +76,35 @@ const RegisterPage = () => {
             <input
               type="text"
               id="user_name"
-              placeholder="Enter your username"
+              placeholder="Enter username"
               value={user_name}
               onChange={(e) => setUser_name(e.target.value)}
             />
             <input
+              type="text"
+              id="user_ID"
+              placeholder="Enter student ID"
+              value={user_ID}
+              onChange={(e) => setUser_ID(e.target.value)}
+            />
+              <input
+              type="text"
+              id="user_department"
+              placeholder="Enter department"
+              value={user_department}
+              onChange={(e) => setUser_department(e.target.value)}
+            />
+            <input
+              type="text"
+              id="user_year"
+              placeholder="Enter year"
+              value={user_year}
+              onChange={(e) => setUser_year(e.target.value)}
+            />
+            <input
               type="email"
               id="email"
-              placeholder="Enter your email"
+              placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

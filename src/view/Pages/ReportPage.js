@@ -1,146 +1,257 @@
-import { Link } from "react-router-dom";
 import Nav from '../component/Navigation';
 import React, { useState, useEffect } from 'react';
-import { auth, database, createUserWithEmailAndPassword, ref, set } from '../component/DatabaseConfig';
-import styles from'../Css/Login.module.css';
+import { auth, database, storage } from '../component/DatabaseConfig';
+import { ref, getDatabase, get, push, set } from 'firebase/database';
+import '../Css/Report.css';
+import { ref as storageRef, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { set as setDatabase, child } from 'firebase/database';
+import { useNavigate } from 'react-router-dom';
 
-const RegisterPage = () => {
-  const [user_name, setUser_name] = useState('');
-  const [user_ID, setUser_ID] = useState('');
-  const [user_department, setUser_department] = useState('');
-  const [user_year, setUser_year] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirm_password, setConfirmPassword] = useState('');
+const ReportPage = () => {
+  const [setDataFromDatabase] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [authorState, setAuthorState] = useState('author');
+  const [selectedBuilding, setSelectedBuilding] = useState('');
+  const [selectedFloor, setSelectedFloor] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Added state for authentication check
+  const navigate = useNavigate(); // Get the navigation function
 
-  const register = () => {
- 
-    if (!validate_email(email) || !validate_password(password)) {
-      alert('Email or Password is Outta Line!!');
+  const dbRef = ref(database);
+  const entriesRef = child(dbRef, 'entries');
+
+  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const checkAuthentication = () => {
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        setIsLoggedIn(true);
+
+        setUser(currentUser);
+
+        const userRef = ref(database, `users/${currentUser.uid}`);
+
+        get(userRef)
+          .then((snapshot) => {
+            const userData = snapshot.val();
+            if (userData && userData.user_name) {
+              setUsername(userData.user_name);
+              setUserEmail(userData.email);
+              setSelectedUser(userData.user_name);
+
+              const db = getDatabase(database);
+              const entriesRef = ref(db, 'entries');
+              entriesRef
+                .get()
+                .then((entriesSnapshot) => {
+                  if (entriesSnapshot.exists()) {
+                    setDataFromDatabase(entriesSnapshot.val());
+                  } else {
+                    console.log('No data available');
+                  }
+                })
+                .catch((error) => {
+                  console.error('Error fetching data:', error.message);
+                });
+            } else {
+              console.error('User data or user_name not found.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching user data:', error.message);
+          });
+      } else {
+        setIsLoggedIn(false);
+        navigate('/login'); // Redirect to the login page
+      }
+    };
+
+    checkAuthentication();
+  }, [navigate]);
+
+  const updateRoom = () => {
+    var floor = document.getElementById("floor");
+    var room = document.getElementById("room");
+    room.innerHTML = "";
+    var defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.innerHTML = "Please select a room";
+    room.appendChild(defaultOption);
+
+    if (floor.value !== "") {
+      for (var i = 0; i < 10; i++) {
+        var option = document.createElement("option");
+        option.value = floor.value + 0 + i;
+        option.innerHTML = "Room " + floor.value + 0 + i;
+        room.appendChild(option);
+      }
+    } 
+  };
+
+  const toggleSlider = () => {
+    setAuthorState((prevAuthorState) => (prevAuthorState === selectedUser ? selectedUser :  "Anonymous" ));
+    updateSlider();
+  };
+
+  const updateSlider = () => {
+    var checkbox = document.querySelector('.toggle-btn input');
+    var slider = document.querySelector('.toggle-btn .toggle-slider');
+
+    if (checkbox.checked) {
+      slider.style.transform = 'translateX(30px)';
+      slider.style.backgroundColor = '#ffff00';
+    } else {
+      slider.style.transform = 'translateX(0)';
+      slider.style.backgroundColor = '#fff';
+    }
+  };
+
+  const storeData = () => {
+    if (!isLoggedIn) {
+      // Redirect or handle unauthorized access
+      alert('Please log in to report issues.');
       return;
     }
-    if (password !== confirm_password) {
-      alert("password not match!!");
+    const building = selectedBuilding;
+    const status = "Unchecked";
+    const approve = false;
+    const floor = selectedFloor;
+    const room = selectedRoom;
+    const detail = document.getElementById('detail').value;
+    const date = document.getElementById('date').value;
+    const imageInput = document.getElementById('image');
+
+    if (!date) {
+      alert('Please choose date.');
       return;
     }
 
-    // Move on with Auth
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Declare user variable
-        const user = userCredential.user;
-        // Add this user to Firebase Database
-        const database_ref = ref(database);
+    if (!building) {
+      alert('Please select building.');
+      return;
+    }
+    if (!floor) {
+      alert('Please select floor.');
+      return;
+    }
+    if (!room) {
+      alert('Please select room.');
+      return;
+    }
+    if (!imageInput.files[0]) {
+      alert('Please select an image.');
+      return;
+    }
 
-        // Create User data
-        const user_data = {
-          user_name: user_name,
-          email: email,
-          user_ID: user_ID,
-          user_department: user_department,
-          user_year: user_year,
-          last_login: Date.now()
-        };
+    let imageFile = imageInput.files[0];
 
-        // Push to Firebase Database
-        set(ref(database, 'users/' + user.uid), user_data);
+    const id = push(ref(database, 'entries')).key;
 
-        // Done
-        alert('User Created!!');
+    const userEmail = user ? user.email : '';
+
+    const data = {
+      id,
+      approve,
+      email: userEmail,
+      building,
+      status,
+      floor,
+      room,
+      detail,
+      date,
+      author: authorState,
+      imageUrl: '',
+    };
+
+    const imageRef = storageRef(storage, `images/${id}/${imageFile.name}`);
+    uploadBytes(imageRef, imageFile)
+      .then(() => getDownloadURL(imageRef))
+      .then((imageUrl) => {
+        data.imageUrl = imageUrl;
+        setDatabase(child(ref(database), `entries/${id}`), data);
+        document.getElementById('dataForm').reset();
+        alert('Data stored successfully!');
       })
-      .catch(error => {
-        // Firebase will use this to alert of its errors
-        const error_code = error.code;
-        const error_message = error.message;
-
-        alert(error_message);
+      .catch((error) => {
+        console.error('Error uploading image:', error.message);
+        alert('Error uploading image. Please try again.');
       });
   };
 
-  const validate_email = (email) => {
-    const expression = /^[^@]+@rupp\.edu\.kh$/;
-    return expression.test(email);
-  };
-
-  const validate_password = (password) => {
-    return password.length >= 6;
-  };
 
   return (
     <>
       <Nav />
-      <div className={styles.container}> 
-      <header className={styles.top}>Regi<span style={{ color: 'yellow' }}>ster</span></header>
-        <div className={`${styles.registration} ${styles.form}`}>
-          <form action="#">
-            <input
-              type="text"
-              id="user_name"
-              placeholder="Enter your username"
-              value={user_name}
-              onChange={(e) => setUser_name(e.target.value)}
-            />
-            <input
-              type="text"
-              id="user_ID"
-              placeholder="Enter your student ID"
-              value={user_ID}
-              onChange={(e) => setUser_ID(e.target.value)}
-            />
-              <input
-              type="text"
-              id="user_department"
-              placeholder="Enter your department"
-              value={user_department}
-              onChange={(e) => setUser_department(e.target.value)}
-            />
-            <input
-              type="text"
-              id="user_year"
-              placeholder="Your year"
-              value={user_year}
-              onChange={(e) => setUser_year(e.target.value)}
-            />
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              id="password"
-              placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              id="con_password"
-              placeholder="Confirm your password"
-              value={confirm_password}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <input
-              type="button"
-              className={styles.button}
-              onClick={() => register()}
-              value="Register"
-            />
-          </form>
-          <div className={styles.signup1}>
-            <span className={styles.signup1}>
-              Already have an account?
-              <Link to="/login">
-                <button htmlFor="check" className={styles.connector}>Login</button>
-              </Link>
-            </span>
-          </div>
+      <header className="ask">
+        <span style={{ color: 'yellow' }}>Re</span>porting
+      </header>
+
+      <section className="reporting">
+        <div className="date-container">
+          <label htmlFor="date">Select Date:</label>
+          <input type="date" id="date" className="date-input" />
         </div>
-      </div>
+
+        <form className="card">
+        <select id="building" onChange={(e) => { updateRoom(); setSelectedBuilding(e.target.value); }} value={selectedBuilding}>
+            <option value="">Building</option>
+            <option value="1">building A</option>
+            <option value="2">building B</option>
+            <option value="3">building C</option>
+            <option value="4">building D</option>
+            <option value="5">Stem building</option>
+          </select>
+        </form>
+
+        <form className="card">
+          <select id="floor" onChange={(f) => { updateRoom(); setSelectedFloor(f.target.value); }} value={selectedFloor}>
+            <option value="">Floor</option>
+            <option value="1">Floor 1</option>
+            <option value="2">Floor 2</option>
+            <option value="3">Floor 3</option>
+          </select>
+        </form>
+
+        <form className="card">
+          <select id="room" required value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)}>
+            <option value="">Room</option>
+            {/* Add room options based on your logic */}
+          </select>
+        </form>
+
+        <section className="addimage">
+          <form>
+            <label htmlFor="image">Image:</label>
+            <input type="file" id="image" accept="image/*" />
+          </form>
+        </section>
+
+        <section className="function">
+          <div className="hidename">
+            <i className="bi bi-eye-slash-fill"></i> &nbsp; &nbsp;Hide Name :
+          </div>
+          <div className="toggle-container">
+            <label className="toggle-btn">
+              <input type="checkbox" onChange={() => toggleSlider()} />
+              <span className="toggle-slider"></span>
+            </label>
+          </div>
+        </section>
+
+        <section className="input-box">
+          <form id="dataForm">
+            <textarea rows="1" id="detail" placeholder="Write more details..."></textarea>
+          </form>
+        </section>
+        <form action="#">
+          <button type="button" onClick={() => storeData()}>Post</button>
+        </form>
+      </section>
     </>
   );
 };
 
-export default RegisterPage;
+export default ReportPage;
