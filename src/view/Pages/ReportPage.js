@@ -251,7 +251,7 @@ const ReportPage = () => {
 
         <section className="function">
           <div className="hidename">
-            <i className="bi bi-eye-slash-fill"></i> &nbsp; &nbsp;Hide Name :
+            <i className="bi bi-eye-slash-fill"></i> &nbsp; &nbsp;Show Name :
           </div>
           <div className="toggle-container">
             <label className="toggle-btn">
@@ -267,7 +267,7 @@ const ReportPage = () => {
           </form>
         </section>
         <form action="#">
-          <button type="button" onClick={() => storeData()}>Post</button>
+          <button type="button" onClick={() => storeData()}>Report</button>
         </form>
       </section>
     </>
