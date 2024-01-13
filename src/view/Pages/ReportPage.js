@@ -91,10 +91,16 @@ const ReportPage = () => {
     } 
   };
 
+  // const toggleSlider = () => {
+  //   setAuthorState((prevAuthorState) => (prevAuthorState === selectedUser ? selectedUser :  "Anonymous" ));
+  //   updateSlider();
+  // };
+
   const toggleSlider = () => {
-    setAuthorState((prevAuthorState) => (prevAuthorState === selectedUser ? selectedUser :  "Anonymous" ));
+    setAuthorState((prevAuthorState) => (prevAuthorState === selectedUser ? "Anonymous" : selectedUser));
     updateSlider();
   };
+  
 
   const updateSlider = () => {
     var checkbox = document.querySelector('.toggle-btn input');
